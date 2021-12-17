@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SearchController!{% endblock %}
+
+{% block body %}
+
+{{ form_start(form) }}
+    {{ form_label(form.city) }}
+    {{ form_errors(form.city) }}
+    {{ form_widget(form.city) }}
+{{ form_end(form) }}
+
+{% endblock %}

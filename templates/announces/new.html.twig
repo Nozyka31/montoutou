@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Announce{% endblock %}
+
+{% block body %}
+<div class="container" id="new_announce">
+    <div class="col-8" id="form_announce">
+        <h1 class="mt-2 mb-4">Déposer une annonce</h1>
+        
+        {{ include('announces/_form.html.twig') }}
+    </div>
+    <div class="col-4">
+        <img class="img_register" src="../image/Maison.jpg" alt="">
+    </div>
+</div>
+{% endblock %}

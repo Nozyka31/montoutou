@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultat{% endblock %}
+
+{% block body %}
+    <h1 class="container">Résultat de votre recherche</h1>
+
+{% if announces %}
+<div class="announces_list">
+    <ul class="gardiens">
+    {% for announce in announces %}
+                <li>
+                    <a href="{{ path('announces_show', {'id': announce.id}) }}">
+                        <div class="card">
+                            <img src="/image/upload/{{ announce.images }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h3 class="card-title">{{ announce.title }}</h3>
+                                {% for address in addressCoordinates %}
+                                    {% if address.id == announce.id %}                                
+                                        <p class="card-text item js-marker" data-lat={{ address.latitude }} data-lng={{ address.longitude }} data-price={{ announce.DailyPrice }}>{{ announce.Address }}, {{ announce.postcode }}, {{ announce.City }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                                <button href="{{ path('announces_show', {'id': announce.id}) }}" class="btn btn-primary">Consulter l'annonce</button>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+    {% endfor %}
+    </ul>
+    <div class="map" id="map"></div>
+</div>
+{% else %}
+<div class="container" id="search_failed">
+    <p>Aucune annonce ne correspond à la ville que vous recherchez</p>
+    <a href="{{ path("home_index") }}" class="btn primary mb-3">Retour à la page d'accueil</a>
+</div>
+{% endif %}
+{% endblock %}

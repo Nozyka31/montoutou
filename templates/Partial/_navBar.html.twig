@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg" id="navbar">
+  <div class="container-fluid">
+    <a class="navbar-brand" id="logo_text" href="{{ path("home_index") }}"><img class="me-3" id="logo_navbar" src="../image/logo/Logo_Sans_Texte.png" alt="">MON TOUTOU</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+      ☰
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav me-auto">
+        {% if app.user != null %}
+        <li class="nav-item">
+          <a class="btn primary ms-2" href="{{ path("announces_new") }}">Déposer une annonce</a>
+        </li>
+        {% endif %}
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        
+        {% if(is_granted("ROLE_USER")) == false %}
+        <li class="nav-item">
+          <a class="btn primary me-1" href="{{ path("app_register") }}">Inscription</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn primary" href="{{ path("app_login") }}">Connexion</a>
+        </li>
+        {% endif %}
+        {% if app.user != null %}
+        <li class="nav-item">
+          <a class="btn primary ms-2" href="{{ path("messages") }}">Messagerie</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn primary ms-2" href="{{ path("home_account") }}">Mon compte</a>
+        </li>
+        {% if(is_granted("ROLE_ADMIN")) %}
+        <li class="nav-item">
+          <a class="btn btn-danger me-1" href="{{ path("admin_index") }}">Page Admin</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="btn primary ms-2" href="{{ path("app_logout") }}">Déconnexion</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  {% for classStyle, messages in app.flashes %}
+    {% for message in messages %}
+      <div class="alert alert-dismissible alert-{{ classStyle }}">
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      <p class="mb-0">{{ message }}</p>
+    </div>
+    {% endfor %}
+  {% endfor %}
+</div>
