@@ -1,0 +1,389 @@
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&display=swap');
+
+body{
+    background-color:rgb(240, 237, 233);
+}
+
+.primary{
+    background-color: #3a5931;
+    color: ivory!important;
+}
+
+.secondary{
+    background-color: #a67233;
+    color: ivory!important;
+}
+
+.patte_btn{
+    width: 3%;
+    height: 3%;
+    margin-right: 5px;
+}
+
+.img-size-little {
+    height: 10rem;
+    border: 1mm solid #f3969a;
+}
+
+.container{
+    margin-left: 5%;
+}
+
+.card{
+    width :15vw;
+}
+
+.card img{
+    height: 30vh;
+}
+
+@media only screen and (min-width:1100px)
+{
+
+}
+
+.register{
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80vw;
+}
+
+.sous_titre{
+    margin-top: -2%;
+    margin-left: 1%;
+}
+
+.bloc_register{
+    margin-top: 2vh;
+    margin-right: 10%;
+}
+
+#search_failed{
+   margin-bottom: 55vh; 
+}
+
+.img_register{
+    width: 25vw;
+    min-height: 100%;
+}
+
+#new_announce{
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80vw;
+}
+
+#form_announce{
+    margin-right: 12%;
+}
+
+.announces_list{
+    width: 90vw;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    display: grid;
+    grid-template-columns: 7fr 4fr;
+}
+
+.map{
+    background-color: #CCCCCC;
+    position: sticky!important;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 100vh;
+}
+
+#navbar{
+    background-color: #A67233;
+    font-family: 'Readex Pro';
+    font-weight: 500;
+    color: #3A5931;
+}
+
+#navbar a{
+    
+    color: #3A5931;
+}
+
+#logo_navbar{
+    max-height: 5vh;
+}
+
+#logo_text{
+    font-size: 1.5rem;
+}
+
+#footer{
+    background-color: #A67233;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-family: 'Readex Pro';
+    color: rgb(34, 34, 34);
+}
+
+#footer ul {
+    
+    margin-top: 1%;
+    width: 20vw;
+    font-weight: 500;
+}
+
+#footer ul li {
+    
+    font-weight:initial;
+    list-style: none;
+}
+
+#footer ul li a{
+    color: #3A5931;
+    font-weight: 300;
+    margin-left: 1%;
+    text-decoration: none;
+}
+
+#footer ul p{
+    color: #3A5931;
+    font-weight: 300;
+    margin-left: 1%;
+    text-decoration: none;
+}
+
+#footer ul li a:hover{
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.marker.leaflet-popup{
+    margin-bottom: 16px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    background-color: #fff;;
+}
+
+.marker.leaflet-popup::after{
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -8px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #fff;
+}
+
+.marker .leaflet-popup-content-wrapper{
+    background: transparent;
+    text-align: inherit;
+    color: inherit;
+    box-shadow: none;
+}
+
+.marker .leaflet-popup-content{
+    text-align: inherit;
+    color: inherit;
+    margin: 0;
+}
+
+.marker .leaflet-popup-tip-container{
+    display: none;
+}
+
+.marker.is-active, .marker:hover{
+    z-index: 300;
+    background-color: rgb(139, 96, 68);
+    box-shadow: none;
+    color: white;
+}
+
+.marker.is-active::after, .marker:hover::after{
+    border-top-color: rgb(139, 96, 68);
+} 
+
+.marker.is-expended{
+    background-color: #fff!important;
+    color: inherit!important;
+    z-index: 301;
+}
+
+.marker.is-expended::after{
+    border-top-color: #fff!important;
+}
+
+
+.gardiens{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 30px;
+    padding: 0 30px;
+}
+
+.gardiens li{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 1%;
+}
+
+.gardiens li a{
+    color: black;
+    text-decoration: none;
+
+}
+
+.gardiens li button{
+    width: 100%;
+}
+
+.announce{
+    width: 50vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: -2.5%;
+    background-color: rgb(231, 223, 216);
+    border-left: solid rgb(231, 223, 216) 50px;
+    border-right: solid rgb(231, 223, 216) 50px;
+    border-top: solid rgb(231, 223, 216) 3px;
+    border-bottom: solid rgb(231, 223, 216) 30px;
+}
+
+#img_announce{
+    width: 100%;
+}
+
+.icone{
+    width: 1.5vw;
+}
+
+.adresse_announce{
+    font-size: 1.5rem;
+}
+
+#containerSearch{
+    width: 100vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#containerSearch h1{
+    margin-left: 5vw;
+}
+
+#formSearch{
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    width: 50vw;
+    height: 75px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #73451D;
+    border-radius: 10px;
+}
+
+#formSearch div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 38px;
+    margin-bottom: 0!important;
+}
+
+#formSearch div label{
+    margin-bottom: 0!important;
+    margin-right: 3px;
+    color: ivory;
+}
+
+#calendrier{
+    background-color: rgb(240, 237, 233);
+    padding: 1%;
+    padding-bottom: 0!important;
+    margin-top: 5vh!important;
+    width: 40vw!important;
+    margin-left: auto!important;
+    margin-right: auto!important;
+}
+
+/* MEDIA */
+/* 
+@media screen and (max-width:1920px){
+
+    
+} */
+
+@media screen and (max-width:1200px){
+
+    .gardiens li{
+        width: 30vw;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2%;
+        margin-top: 2%;
+    }
+
+    .gardiens{
+        width: 90vw;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2%;
+        margin-top: 2%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .map{
+        display: none;
+    }
+
+    .card{
+        width :30vw;
+    }
+
+    .carousel{
+        width: 100vw;
+        transform: translateX(0);
+    }
+
+
+    #formSearch{
+        width: 95vw;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media screen and (max-width:600px){
+
+    .gardiens{
+        width: 80vw;
+        flex-direction: column;
+    }
+
+    .gardiens li{
+        width: 80vw;
+    }
+
+    .card{
+        width: 80vw;
+    }
+}

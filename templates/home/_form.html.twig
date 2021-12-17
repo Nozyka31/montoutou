@@ -1,0 +1,23 @@
+{{ form_start(form, {'attr': {'id': 'formSearch'}}) }}
+<div>
+    {{ form_label(form.city) }}
+    {{ form_errors(form.city) }}
+    {{ form_widget(form.city) }}
+</div>
+
+<div>
+    {{ form_label(form.start) }}
+    {{ form_errors(form.start) }}
+    {{ form_widget(form.start) }}
+</div>
+
+<div>
+    {{ form_label(form.end) }}
+    {{ form_errors(form.end) }}
+    {{ form_widget(form.end) }}
+</div>
+
+
+
+    {{ form_label(form.search) }}
+{{ form_end(form) }}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Bonjour {{user.firstname|capitalize}} {{user.lastname|capitalize}}</h1>
+
+    {% if clients != null %}
+        <h5>Mes clients</h5>
+        {% for client in clients %}
+            <div class="card border-warning mt-3 mb-3 col-4">
+                <div class="card-body">
+                <p class="card-text">Contract with : </p>
+                <p class="card-text">Car : </p>
+                <p class="card-text">Pick up the car here : </p>
+                <p class="card-text">Phone number : </p>
+            </div>
+        </div> 
+        {% endfor %}
+    {% endif %}
+
+    {% if gardiens != null %}
+        <h5>Ils vont garder mes animaux</h5>
+        {% for client in clients %}
+            <div class="card border-warning mt-3 mb-3 col-4">
+                <div class="card-body">
+                <p class="card-text">Contract with : </p>
+                <p class="card-text">Car : </p>
+                <p class="card-text">Pick up the car here : </p>
+                <p class="card-text">Phone number : </p>
+            </div>
+        </div> 
+        {% endfor %}
+    {% endif %}
+        
+    <a class="btn secondary" href="#">Modifier votre profil</a>    <a class="btn primary mt-3 mb-3" href="/">Retour à l'accueil</a>
+</div>
+{% endblock %}

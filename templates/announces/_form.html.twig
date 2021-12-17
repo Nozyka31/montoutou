@@ -1,0 +1,61 @@
+{{ form_start(form) }}
+
+
+{{ form_label(form.title) }}
+{{ form_errors(form.title) }}
+{{ form_widget(form.title) }}
+
+<div class="mt-2">
+    {{ form_label(form.description) }}
+    {{ form_errors(form.description) }}
+    {{ form_widget(form.description) }}
+</div>
+
+<div class="mt-2">
+    {{ form_label(form.max_animals) }}
+    {{ form_errors(form.max_animals) }}
+    {{ form_widget(form.max_animals) }}
+</div>
+
+<div class="row mt-2">
+    <div class="col-4">
+        {{ form_label(form.address) }}
+        {{ form_errors(form.address) }}
+        {{ form_widget(form.address) }}
+    </div>
+    <div class="col-4">
+        {{ form_label(form.city) }}
+        {{ form_errors(form.city) }}
+        {{ form_widget(form.city) }}
+    </div>
+    <div class="col-4">
+        {{ form_label(form.postcode) }}
+        {{ form_errors(form.postcode) }}
+        {{ form_widget(form.postcode) }}
+    </div>
+</div>
+
+<div class="mt-2">
+    {{ form_label(form.daily_price) }}
+    {{ form_errors(form.daily_price) }}
+    {{ form_widget(form.daily_price) }}
+</div>
+
+{% if form.vars.value.images != "" %}
+<div>
+    <p>Image actuelle</p>
+    <img class="img-size-little" src="/image/upload/{{ form.vars.value.images }}" alt="image">
+</div>
+{% endif %}
+
+<div class="mt-2">
+    {{ form_label(form.images) }}
+    {{ form_errors(form.images) }}
+    {{ form_widget(form.images) }}
+</div>
+
+<div class="mb-2 mt-4">
+    <a class="btn secondary">{{ button_label|default('Déposez voter annonce') }}</a>
+    <a class="btn primary" href="{{ path('announces_index') }}">Retour</a>
+</div>
+{{ form_end(form) }}

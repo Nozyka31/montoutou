@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page Index{% endblock %}
+
+{% block body %}
+<h1>Contactez-nous !</h1>
+
+<form method="POST">
+<div class="form-group row">
+    <label for="email" class="form-label mt-4">Votre addresse email :</label>
+    <input type="text" name="email" class="form-control-plaintext border" placeholder="Entrez votre email">
+</div>
+<div class="form-group row">
+    <label for="sujet" class="form-label mt-4">Sujet de votre message :</label>
+    <input type="text" name="sujet" class="form-control-plaintext border" placeholder="Entrez le sujet de votre message">
+</div>
+<div class="form-group row">
+    <label for="message" class="form-label mt-4">Votre message :</label>
+    <input type="textarea" name="message" class="form-control-plaintext border" rows="4" placeholder="Entrez votre message">
+</div>
+<input class="btn btn-primary mt-2" type="submit" value="Envoyer">
+</form>
+{% endblock %}
