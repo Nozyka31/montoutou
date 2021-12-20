@@ -2,5 +2,26 @@
   "dependencies": {
     "bootstrap-datepicker": "^1.9.0",
     "jquery": "^3.6.0"
-  }
+  },
+  "name": "build",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nozyka31/montoutou.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nozyka31/montoutou/issues"
+  },
+  "homepage": "https://github.com/Nozyka31/montoutou#readme",
+  "description": ""
 }

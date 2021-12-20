@@ -1,6 +1,7 @@
 
 ###> symfony/framework-bundle ###
 **/node_modules
+/.env
 /.env.test
 /.env.local
 /.env.local.php
