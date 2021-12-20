@@ -42,14 +42,14 @@ class HomeController extends AbstractController
     {
         $form = $this->createFormBuilder(null)
             ->setAction($this->generateUrl(route:'home_search'))
-            ->add('city', TextType::class, [
+            ->add('city', TextType::class, array(
                 'label' => "Ville  ",
                 'required' => true,
                 'attr' => [
                     'placeholder' => "Cherchez une ville",
                     'class' => 'ms-1',
                 ],
-            ])
+            ))
             ->add('start', DateTimeType::class, array(
                 'label' => "Du  ",
                 'required' => true,
