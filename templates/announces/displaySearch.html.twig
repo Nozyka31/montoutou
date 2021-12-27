@@ -16,7 +16,6 @@
                             <img src="/image/upload/{{ announce.images }}" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h3 class="card-title">{{ announce.title }}</h3>
-                                <h5 class="card-title">{{ announce.daily_price }}</h5>
                                 {% for address in addressCoordinates %}
                                     {% if address.id == announce.id %}                                
                                         <p class="card-text item js-marker" 
