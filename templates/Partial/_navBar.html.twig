@@ -7,8 +7,10 @@
 
     <div class="collapse navbar-collapse" id="navbarColor02">
       <ul class="navbar-nav me-auto">
+        {# Check if user is connected #}
         {% if app.user != null %}
         <li class="nav-item">
+          {# If user ius connected, he will be able to place an ad #}
           <a class="btn primary ms-2" href="{{ path("announces_new") }}">Déposer une annonce</a>
         </li>
         {% endif %}
@@ -32,7 +34,7 @@
         </li>
         {% if(is_granted("ROLE_ADMIN")) %}
         <li class="nav-item">
-          <a class="btn btn-danger me-1" href="{{ path("admin_index") }}">Page Admin</a>
+          {# <a class="btn btn-danger me-1" href="{{ path("admin_index") }}">Page Admin</a> #}
         </li>
         {% endif %}
         <li class="nav-item">

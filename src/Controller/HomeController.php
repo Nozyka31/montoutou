@@ -8,6 +8,7 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use App\Repository\AnnouncesRepository;
 use App\Repository\ReservationsRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\Security;
@@ -170,16 +171,51 @@ class HomeController extends AbstractController
     }
 
     #[Route('/account', name: 'home_account')]
-    public function account(ReservationsRepository $reservationsRepository): Response
+    public function account(ReservationsRepository $reservationsRepository, UserRepository $userRepository): Response
     {
         $user = $this->security->getUser();
         $resClient = $reservationsRepository->findReservationsByClient($user);
         $resGardien = $reservationsRepository->findReservationsByGardien($user);
+        
+        $allClients = null;
+        if(count($resClient)){
+            $allClients[0] = $userRepository->findUserByID($resClient[0]->getClientId());
+            if(count($resClient) > 0)
+            {
+                for($i = 1; $i < count($resClient); $i++)
+                {
+                    $allClients[$i] = $userRepository->findUserByID($resClient[$i]->getClientId());
+                }
+            }
+        }
+        else
+        {
+            $allClients[0] = $user;
+        }
+        
+        $allGardiens = null;
+        if(count($resGardien)){
+            $allGardiens[0] = $userRepository->findUserByID($resGardien[0]->getClientId());
+            if(count($resClient) > 0)
+            {
+                for($i = 1; $i < count($resGardien); $i++)
+                {
+                    $allGardiens[$i] = $userRepository->findUserByID($resGardien[$i]->getClientId());
+                }
+            }
+        }
+        else
+        {
+            $allGardiens[0] = $user;
+        }
+        //$allUsers = 
 
         return $this->render('home/account.html.twig', [
             'user' => $user,
-            'clients' => $resClient,
-            'gardiens' => $resGardien,
+            'resClients' => $resClient,
+            'resGardiens' => $resGardien,
+            'clients' => $allClients[0],
+            'gardiens' => $allGardiens[0],
         ]);
     }
 }

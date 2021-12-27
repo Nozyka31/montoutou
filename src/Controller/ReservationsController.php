@@ -39,7 +39,6 @@ class ReservationsController extends AbstractController
     {
         
         $id = $request->attributes->get("id");
-        dd($id);
         $announce = $announcesRepository->findOneByID($id);
         $data = $request->request->all();
 
