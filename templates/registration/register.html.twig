@@ -13,14 +13,14 @@
         <p class="sous_titre">Créez un compte ou <a href="{{ path('app_login') }}">connectez-vous</a></p>
 
         {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.firstName) }}
-        {{ form_row(registrationForm.lastName) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword) }}
-        {# {{ form_row(registrationForm.agreeTerms) }} #}
+            {{ form_row(registrationForm.firstName) }}
+            {{ form_row(registrationForm.lastName) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword) }}
+            {# {{ form_row(registrationForm.agreeTerms) }} #}
 
-        <button type="submit" class="btn btn-primary">S'inscrire</button>
-    {{ form_end(registrationForm) }}
+            <button type="submit" class="btn btn-primary">S'inscrire</button>
+        {{ form_end(registrationForm) }}
     </div>
     <div class="col-4">
         <img class="img_register" src="image/dogs/dog_login.jpg" alt="">

@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use DateTime;
+use App\Entity\User;
+use App\Form\RegistrationFormType;
 use App\Service\Geocoding;
+use Doctrine\ORM\Mapping\Id;
 use Symfony\Component\Mime\Email;
+use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
 use App\Repository\AnnouncesRepository;
 use App\Repository\ReservationsRepository;
-use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\Security;
@@ -116,41 +119,58 @@ class HomeController extends AbstractController
         }
         if($query)
         {
-            
             $announces = $announcesRepository->findAnnouncesByCity($query);
 
 
             $addressCoordinates = array();
+            $indexRemoved = array();
 
             for($i = 0; $i < sizeof($announces); $i++)
             {
+                // dd($reservationsRepository->findReservationsByAnnounce($announces[3])[0]);
                 if($reservationsRepository->findReservationsByAnnounce($announces[$i]))
                 {
                     $resa = $reservationsRepository->findReservationsByAnnounce($announces[$i]);
-                    for($j = 0; $j < count($resa); $j++)
+                    foreach($resa as $res)
                     {
-                        if($startDate >= $resa[$j]->getEnd() || $endDate <= $resa[$j]->getStart())
+                        if($startDate >= $res->getEnd() || $endDate <= $res->getStart())
                         {
+                            if($indexRemoved[$i] =! true)
+                            {
+                                $indexRemoved[$i] = false;
+                            }
                         }
                         else
                         {
-                            if($announces[$i] == $resa[$j]->getAnnounceId())
-                            {
-                                unset($announces[$i]);
-                                $i--;
-                            }
+                            $indexRemoved[$i] = true;
                         }
                     }
                 }
+                else
+                {
+                    $indexRemoved[$i] = false;
+                }
 
-                $addressCoordinates[$i] = $this->geoCode($announces[$i]->getAddress() . ", " . $announces[$i]->getPostcode() . ", " . $announces[$i]->getCity(), $announces[$i]->getId());
+                if($indexRemoved[$i] == false)
+                {
+                    $addressCoordinates[$i] = $this->geoCode($announces[$i]->getAddress() . ", " . $announces[$i]->getPostcode() . ", " . $announces[$i]->getCity(), $announces[$i]->getId());
+                }
+            }
 
+            for($i = 0; $i < sizeof($indexRemoved); $i++)
+            {
+                if($indexRemoved[$i] == true)
+                {
+                    unset($announces[$i]);
+                }
             }
         }
 
         return $this->render('announces/displaySearch.html.twig', [
             'announces' => $announces,
             'addressCoordinates' => $addressCoordinates,
+            'start' => $startDate,
+            'end' => $endDate,
         ]);
     }
 
@@ -171,51 +191,35 @@ class HomeController extends AbstractController
     }
 
     #[Route('/account', name: 'home_account')]
-    public function account(ReservationsRepository $reservationsRepository, UserRepository $userRepository): Response
+    public function account(ReservationsRepository $reservationsRepository, UserRepository $userRepository, AnnouncesRepository $announcesRepository): Response
     {
         $user = $this->security->getUser();
         $resClient = $reservationsRepository->findReservationsByClient($user);
         $resGardien = $reservationsRepository->findReservationsByGardien($user);
-        
-        $allClients = null;
-        if(count($resClient)){
-            $allClients[0] = $userRepository->findUserByID($resClient[0]->getClientId());
-            if(count($resClient) > 0)
-            {
-                for($i = 1; $i < count($resClient); $i++)
-                {
-                    $allClients[$i] = $userRepository->findUserByID($resClient[$i]->getClientId());
-                }
-            }
-        }
-        else
-        {
-            $allClients[0] = $user;
-        }
-        
-        $allGardiens = null;
-        if(count($resGardien)){
-            $allGardiens[0] = $userRepository->findUserByID($resGardien[0]->getClientId());
-            if(count($resClient) > 0)
-            {
-                for($i = 1; $i < count($resGardien); $i++)
-                {
-                    $allGardiens[$i] = $userRepository->findUserByID($resGardien[$i]->getClientId());
-                }
-            }
-        }
-        else
-        {
-            $allGardiens[0] = $user;
-        }
-        //$allUsers = 
+        $announces = $announcesRepository->findAnnouncesByUser($user->getId());
 
         return $this->render('home/account.html.twig', [
             'user' => $user,
             'resClients' => $resClient,
             'resGardiens' => $resGardien,
-            'clients' => $allClients[0],
-            'gardiens' => $allGardiens[0],
+            'announces' => $announces,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'account_edit', methods: ['GET','POST'])]
+    public function edit(Request $request, User $user): Response
+    {
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('home_account', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('home/account_edit.html.twig', [
+            'user' => $user,
+            'form' => $form,
         ]);
     }
 }

@@ -6,7 +6,8 @@
 
 <div class="container register">
         <div class="col-8 bloc_register">
-            <form method="post">
+            <div id="url" class="d-none">{{ URL }}</div>
+             <form method="POST" id="formLogin">
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
@@ -39,13 +40,33 @@
                     </div>
                 #}
 
-                <button class="btn btn-lg btn-primary" type="submit">
-                    Sign in
-                </button>
+                <input class="btn btn-lg btn-primary" type="submit" value="Se connecter">
             </form>
         </div>
         <div class="col-4">
             <img class="img_register" src="image/dogs/dog_login2.jpg" alt="">
         </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+let formLogin = document.getElementById("formLogin");
+let url = document.getElementById("url");
+
+console.log(url.innerHTML)
+if(url.innerHTML != "toto")
+{
+    formLogin.addEventListener("submit", function() {
+        return new Promise(resolve => {
+        setTimeout(function() {
+            resolve("rapide");
+            window.location.href = url.innerHTML;
+        }, 1000);
+        });
+    });
+}
+</script>
+
 {% endblock %}

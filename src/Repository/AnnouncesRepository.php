@@ -54,6 +54,18 @@ class AnnouncesRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findAnnouncesByUser(string $query)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.user_ID = :val')
+            ->setParameter('val', $query)
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function findOneByID($value): ?Announces
     {
         return $this->createQueryBuilder('a')

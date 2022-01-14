@@ -38,6 +38,7 @@ class AnnouncesController extends AbstractController
     #[Route('/', name: 'announces_index', methods: ['GET'])]
     public function index(AnnouncesRepository $announcesRepository): Response
     {
+        
         return $this->render('announces/index.html.twig', [
             'announces' => $announcesRepository->findAll(),
         ]);
@@ -66,7 +67,9 @@ class AnnouncesController extends AbstractController
             $entityManager->persist($announce);
             $entityManager->flush();
 
-            return $this->redirectToRoute('announces_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('announces_show', [
+                'id' => $announce->getId(),
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('announces/new.html.twig', [
@@ -75,9 +78,11 @@ class AnnouncesController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'announces_show', methods: ['GET','POST'])]
+    #[Route('/{id}', defaults: ['start', 'end'], name: 'announces_show', methods: ['GET','POST'])]
     public function show(Announces $announce, Request $request, UserRepository $userRepository, CheckReservations $checker, ReservationsRepository $reservationsRepository): Response
     {
+        dd($referer = $request->headers);
+        $activeUser = $this->security->getUser();
         $city = $request->attributes->get('announce')->getCity();
         $referer = $request->headers->get('referer');
 
@@ -98,10 +103,26 @@ class AnnouncesController extends AbstractController
 
         
         $user = $userRepository->findUserByID($announce->getUserID())[0];
+        // dd($announce->getUserID());
 
-        $form = $this->createFormBuilder(null)
+        if($activeUser == $user)
+        {
+            return $this->render('announces/show.html.twig', [
+                'announce' => $announce,
+                'previousPage' => $referer,
+                'user' => $user,
+                'activeUser' => $activeUser,
+                'previousCity' => $city,
+                'data' => $data
+            ]);
+        }
+        else
+        {
+            
+            $form = $this->createFormBuilder(null)
             ->setAction($this->generateUrl('reservation_book', array(
                 'id' => $announce->getId(),
+                'user' => $user,
                 )))
             ->add('start', DateType::class, array(
                 'label' => "Du  ",
@@ -112,6 +133,7 @@ class AnnouncesController extends AbstractController
                     'autocomplete' => "off",
                     'placeholder' => "Arrivée",
                     'class' => 'js-datepicker inputStart',
+                    'id' => 'start',
                     'data-provide' => 'datetimepicker',
                 ],
                 ))
@@ -124,10 +146,11 @@ class AnnouncesController extends AbstractController
                     'autocomplete' => "off",
                     'placeholder' => "Départ",
                     'class' => 'js-datepicker inputEnd',
+                    'id' => 'end',
                     'data-provide' => 'datetimepicker',
                 ],
                 ))
-            ->add('search', SubmitType::class, [
+            ->add('book', SubmitType::class, [
                 'label' => "Réserver",
                 'attr' => [
                     'class' => 'btn mt-3 primary'
@@ -135,26 +158,43 @@ class AnnouncesController extends AbstractController
             ])
             ->getForm();
 
-        return $this->render('announces/show.html.twig', [
-            'announce' => $announce,
-            'previousPage' => $referer,
-            'user' => $user,
-            'previousCity' => $city,
-            'form' => $form->createView(),
-            'data' => $data
-        ]);
+            dump($form->get('end')->getData() - $form->get('start')->getData());
+
+            return $this->render('announces/show.html.twig', [
+                'announce' => $announce,
+                'previousPage' => $referer,
+                'user' => $user,
+                'activeUser' => $activeUser,
+                'previousCity' => $city,
+                'form' => $form->createView(),
+                'data' => $data
+            ]);
+        }
     }
 
     #[Route('/{id}/edit', name: 'announces_edit', methods: ['GET','POST'])]
-    public function edit(Request $request, Announces $announce): Response
+    public function edit(Request $request, Announces $announce, UploadService $uploader): Response
     {
         $form = $this->createForm(AnnouncesType::class, $announce);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('images')->getData();
+            if($imageFile == null)
+            {
+                $announce->setImages($announce->getImages());
+            }
+            else
+            {
+                $fileName = $uploader->upload($imageFile);
+
+                $announce->setImages($fileName);
+            }
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('announces_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('announces_show', [
+                'id' => $announce->getId(),
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('announces/edit.html.twig', [
@@ -163,16 +203,14 @@ class AnnouncesController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'announces_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'announces_delete', methods: ['GET','POST'])]
     public function delete(Request $request, Announces $announce): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$announce->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($announce);
             $entityManager->flush();
-        }
 
-        return $this->redirectToRoute('announces_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('home_index', [], Response::HTTP_SEE_OTHER);
     }
 
 }

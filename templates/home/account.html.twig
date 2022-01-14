@@ -6,47 +6,70 @@
 <div class="container">
     <h1>Bonjour {{user.firstname|capitalize}} {{user.lastname|capitalize}}</h1>
 
-    {% if resClients != null %}
-        <h5>Mes clients</h5>
-        {% for resClient in resClients %}
-            {% for client in clients %}
-                {% if client.id == resClient.clientid.id %}
-                    <div class="card border-warning mt-3 mb-3 col-6">
-                        <div class="card-body">
-                        <p class="card-text">Je garderai le chien de {{client.firstname|capitalize}} {{client.lastname|capitalize}}</p>
-                        <p class="card-text">Du {{resClient.start|date("d/m/Y")}} au {{resClient.end|date("d/m/Y")}} </p>
-                        <p class="card-text">Contactez le client <a class="btn primary" href="{{ path('messages_send', {'id': client.id}) }}">Contact</a></p>
-                        <p class="card-text">Envoyez lui un mail : {{client.email}} </p>
-                    </div>
-                </div> 
-                
-                {% endif %}
+    {% if announces != null %}
+        {% if announces|length > 1 %}
+            <h5>Mes annonces</h5>
+        {% else %}
+            <h5>Mon annonce</h5>
+        {% endif %}
+        <div class="announces_list">
+            <ul class="gardiens">
+            {# AFFICHER UNE CARTE POUR CHAQUE ANNONCE CORRESPONDANT AU FILTRE (VILLE) #}
+            {% for announce in announces %}
+                        <li>
+                            <a href="{{ path('announces_show', {'id': announce.id}) }}">
+                                <div class="card">
+                                    <img src="/image/upload/{{ announce.images }}" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h3 class="card-title">{{ announce.title }}</h3>                              
+                                                <p>{{ announce.Address }}, {{ announce.postcode }}, {{ announce.City }}</p>
+                                                <p>Prix journalier : {{ announce.DailyPrice }} €</p>
+                                            
+                                        <button href="{{ path('announces_show', {'id': announce.id}) }}" class="btn btn-primary">Consulter l'annonce</button>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
             {% endfor %}
-        {% endfor %}
+            </ul>
+        </div>
+
     {% endif %}
 
-    {% if resGardiens != null %}
-        <pre>
-            {{ dump(resGardiens) }}
-        </pre>
-        <h5>Mes gardiens</h5>
-        {% for resGardien in resGardiens %}
-            {% for gardien in gardiens %}
-                {% if gardien.id == resGardien.gardienid.id %}
-                    <div class="card border-warning mt-3 mb-3 col-6">
-                        <div class="card-body">
-                        <p class="card-text">{{gardien.firstname|capitalize}} {{gardien.lastname|capitalize}} gardera mon chien.</p>
+
+    <div id="account">
+        <div>
+            {% if resClients != null %}
+                <h5>Mes gardiens</h5>
+                {% for resClient in resClients %}
+                        <div class="card border-warning mt-3 mb-3 col-6">
+                            <div class="card-body">
+                            <p class="card-text">{{resClient.gardienid.firstname|capitalize}} {{resClient.gardienid.lastname|capitalize}} gardera mon chien.</p>
+                            <p class="card-text">Du {{resClient.start|date("d/m/Y")}} au {{resClient.end|date("d/m/Y")}} </p>
+                            <p class="card-text">Contactez le client <a class="btn primary" href="{{ path('messages_send', {'id': resClient.gardienid.id}) }}">Contact</a></p>
+                            <p class="card-text">Envoyez lui un mail : {{resClient.gardienid.email}} </p>
+                        </div>
+                    </div> 
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            {% if resGardiens != null %}
+                <h5>Mes clients</h5>
+                {% for resGardien in resGardiens %}
+                <div class="card border-warning mt-3 mb-3 col-6">
+                    <div class="card-body">
+                        <p class="card-text">Je garderai le chien de {{resGardien.clientid.firstname|capitalize}} {{resGardien.clientid.lastname|capitalize}}</p>
                         <p class="card-text">Du {{resGardien.start|date("d/m/Y")}} au {{resGardien.end|date("d/m/Y")}} </p>
-                        <p class="card-text">Contactez le client <a class="btn primary" href="{{ path('messages_send', {'id': gardien.id}) }}">Contact</a></p>
-                        <p class="card-text">Envoyez lui un mail : {{gardien.email}} </p>
+                        <p class="card-text">Contactez le client <a class="btn primary" href="{{ path('messages_send', {'id': resGardien.clientid.id}) }}">Contact</a></p>
+                        <p class="card-text">Envoyez lui un mail : {{resGardien.clientid.email}} </p>
                     </div>
                 </div> 
-                
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
-    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
         
-    <a class="btn secondary" href="#">Modifier votre profil</a>    <a class="btn primary mt-3 mb-3" href="/">Retour à l'accueil</a>
+    <a class="btn secondary" href="{{ path('account_edit', {'id': user.id}) }}">Modifier votre profil</a>    <a class="btn primary mt-3 mb-3" href="/">Retour à l'accueil</a>
 </div>
 {% endblock %}
