@@ -81,7 +81,6 @@ class AnnouncesController extends AbstractController
     #[Route('/{id}', defaults: ['start', 'end'], name: 'announces_show', methods: ['GET','POST'])]
     public function show(Announces $announce, Request $request, UserRepository $userRepository, CheckReservations $checker, ReservationsRepository $reservationsRepository): Response
     {
-        dd($referer = $request->headers);
         $activeUser = $this->security->getUser();
         $city = $request->attributes->get('announce')->getCity();
         $referer = $request->headers->get('referer');
