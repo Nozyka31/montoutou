@@ -5,5 +5,33 @@
 {% block body %}
     <h1>Confirmation</h1>
 
+    <div class="">
+        <div class="card-body">
+        <p class="card-text">{{gardien.firstname|capitalize}} {{gardien.lastname|capitalize}} gardera mon chien.</p>
+        <p class="card-text">Du {{data.form.start|date("d/m/Y")}} au {{data.form.end|date("d/m/Y")}} </p>
+        <p class="card-text dailyprice" id="{{ announce.dailyprice }}"></p>
+        <p class="card-text" id="price"></p>
+        <p class="card-text col-3">Mon TOUTOU ne prend pas en charge les paiements par carte bancaire, vous devrez donc régler en main propre, soit par espèce, soit par chèque auprès de votre gardien.</p>
+        <p class="card-text">Contactez le client <a class="btn primary" href="{{ path('messages_send', {'id': gardien.id}) }}">Contact</a></p>
+        <p class="card-text">Envoyez lui un mail : {{gardien.email}} </p>
+    </div>
 
+{% endblock %}
+
+{% block javascripts %}
+<script>
+
+let startDate = new Date('{{data.form.start }}')
+let endDate = new Date('{{data.form.end }}')
+startDate = startDate.getTime() / 86400000
+endDate = endDate.getTime() / 86400000
+
+let price = document.getElementById('price')
+let dailyPriceComp = document.getElementsByClassName('dailyprice')
+let dailyPrice = dailyPriceComp[0].id
+
+let totalPrice = (endDate - startDate) * dailyPrice
+price.innerHTML = "Le prix total de votre réservation est de " + totalPrice + "€."
+
+</script>
 {% endblock %}

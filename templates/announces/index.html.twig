@@ -3,6 +3,7 @@
 {% block title %}Announces index{% endblock %}
 
 {% block body %}
+
     <h1>Announces index</h1>
 
     <table class="table">
@@ -14,6 +15,7 @@
                 <th>Ville</th>
                 <th>Code postal</th>
                 <th>Prix journalier</th>
+                <th>Propriétaire</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -26,9 +28,12 @@
                 <td>{{ announce.City }}</td>
                 <td>{{ announce.postcode }}</td>
                 <td>{{ announce.dailyPrice }}</td>
+                <td>{{ announce.userID.firstname }} {{ announce.userID.lastname }}</td>
                 <td>
-                    <a href="{{ path('announces_show', {'id': announce.id}) }}">show</a>
-                    <a href="{{ path('announces_edit', {'id': announce.id}) }}">edit</a>
+                    <a class="btn primary" href="{{ path('announces_show', {'id': announce.id}) }}">Consulter</a>
+                    <a class="btn secondary" href="{{ path('announces_edit', {'id': announce.id}) }}">Modifier</a>
+                    <a class="btn btn-danger" href="{{ path('announces_delete', {'id': announce.id}) }}" onclick="return confirm('Voullez-vous vraiment supprimer votre annonce?');">Supprimer</a>
+                    <a class="btn btn-warning" href="{{ path('messages_send', {'id': announce.userID}) }}">Contacter</a>
                 </td>
             </tr>
         {% else %}
@@ -39,5 +44,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('announces_new') }}">Create new</a>
 {% endblock %}

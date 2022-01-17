@@ -2,24 +2,13 @@
 
 {% block title %}Announces{% endblock %}
 
-{% block stylesheets %}
-<style>
-    #calendrier{
-        width:50vw;
-        margin:auto;
-    }
-</style>
-{% endblock %}
-
 {% block body %}
 
 
 <div class="announce">
     <h1 class="text-center mt-3 mb-2">{{ announce.title|capitalize }}</h1>
 
-    
-
-{# CAROUSEL IMAGES ANNONCE #}
+{# IMAGES ANNONCE #}
 
 {% if announce.images != "" %}
 <div>
@@ -27,7 +16,7 @@
 </div>
 {% endif %} 
 
-{# FIN CAROUSEL IMAGES ANNONCE #}
+{# FIN IMAGES ANNONCE #}
 
 <div>
     <div class="d-flex flex-row justify-content-center align-items-center">
@@ -39,32 +28,50 @@
 
 <div id="description">
     <p>{{ announce.description }}</p>
+    <p class="dailyprice" id="{{ announce.dailyprice }}">Prix journalier : {{ announce.dailyprice }} €</p>
 </div>
 
-<div>
+{% if activeUser == user %}
+
+{% else %}
+    <div>
     <p class="mb-0">Contactez ce gardien</p>
     <div class="d-flex flex-row justify-content-around align-items-center">
         <h5 class="text-center mb-0 col-6"><img class="icone me-1" src="../image/icones/mail.png" alt="">Mail : {{ user.email }}</h5>
-        <a class="col-6 btn primary" href="{{ path('messages_send', {'id': user.id}) }}">Laissez lui un message</a>
+        {% if app.user != null %}
+            <a class="col-6 btn primary" href="{{ path('messages_send', {'id': user.id}) }}">Laissez lui un message</a>
+        {% else %}
+            <div id="no_log_res" class="col-6 btn primary">Veuillez-vous connecter pour contacter ce gardien</div>
+        {% endif %}
     </div>
 </div>
-
     <div id="calendrier">
         {{ form_start(form) }}
         <div class="row">
             <div class="col-6">{{ form_label(form.start) }} {{ form_widget(form.start) }}</div>
             <div class="col-6">{{ form_label(form.end) }} {{ form_widget(form.end) }}</div>
+            {% if app.user != null %}
+                <div class="col-4">{{ form_widget(form.book) }}</div>
+            {% else %}
+            {{ form_widget(form.book, { 'attr': {'class': 'd-none'} }) }}
+                <div id="no_log_res" class="col-10 btn primary">Veuillez-vous connecter pour effectuer une reservation</div>
+            {% endif %}
+            <div id="price" class="col-12"></div>
         </div>
             
         {{ form_end(form) }}
     </div>
 
-    <a class="btn mt-2 primary" href="{{ path('home_search', {'previousCity': previousCity}) }}">Retour aux recherches</a>
+{% endif %}
+
+
+    <a class="btn primary mt-2 mb-2" href="{{ path('home_search', {'previousCity': previousCity}) }}">Retour aux recherches</a>
 
 
     {% if app.user %}
         {% if app.user.id == announce.userID.id %}
-            <a class="btn btn-secondary" href="{{ path('announces_edit', {'id': announce.id}) }}">Éditer</a>
+            <a class="btn secondary" href="{{ path('announces_edit', {'id': announce.id}) }}">Éditer</a>
+            {{ include('announces/_delete_form.html.twig') }}
 
         {% endif %}
     {% endif %}
@@ -72,11 +79,11 @@
 </div>
 
 
-    {{ include('announces/_delete_form.html.twig') }}
 {% endblock %}
 
 {% block javascripts %}
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.3.0/main.min.js"></script>
+<script src="/js/price.js"></script>
 <script>
 
 let reservations = document.getElementsByClassName("fc-daygrid-event")

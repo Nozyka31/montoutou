@@ -55,7 +55,8 @@
 </div>
 
 <div class="mb-2 mt-4">
-    <a class="btn secondary">{{ button_label|default('Déposez voter annonce') }}</a>
-    <a class="btn primary" href="{{ path('announces_index') }}">Retour</a>
+    
+    {{ form_label(form.envoyer) }}
+    {# <a class="btn primary" href="{{ path('announces_index') }}">Retour</a> #}
 </div>
 {{ form_end(form) }}

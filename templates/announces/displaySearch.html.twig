@@ -8,19 +8,27 @@
 {% if announces %}
 <div class="announces_list">
     <ul class="gardiens">
+    {# AFFICHER UNE CARTE POUR CHAQUE ANNONCE CORRESPONDANT AU FILTRE (VILLE) #}
     {% for announce in announces %}
                 <li>
                     <a href="{{ path('announces_show', {'id': announce.id}) }}">
                         <div class="card">
-                            <img src="/image/upload/{{ announce.images }}" class="card-img-top" alt="...">
+                        {% if announce.images == null %}
+                            <img src="/image/no_photo.png" class="card-img-top" alt="Photo de l'annonce. C'est une plaine avec un texte par dessus. Cela signifie que l'utilisateur n'a pas rensigné de photo dans son annonce.">
+                        {% else %}
+                            <img src="/image/upload/{{ announce.images }}" class="card-img-top" alt="Photo de l'annonce. Elle représente le domicile d'un gardien.">
+                        {% endif %}
                             <div class="card-body">
                                 <h3 class="card-title">{{ announce.title }}</h3>
                                 {% for address in addressCoordinates %}
                                     {% if address.id == announce.id %}                                
-                                        <p class="card-text item js-marker" data-lat={{ address.latitude }} data-lng={{ address.longitude }} data-price={{ announce.DailyPrice }}>{{ announce.Address }}, {{ announce.postcode }}, {{ announce.City }}</p>
+                                        <p class="card-text item js-marker" 
+                                        data-lat={{ address.latitude }} data-lng={{ address.longitude }} data-price={{ announce.DailyPrice }}>
+                                        {{ announce.Address }}, {{ announce.postcode }}, {{ announce.City }}</p>
+                                        <p>Prix journalier : {{ announce.DailyPrice }} €</p>
                                     {% endif %}
                                 {% endfor %}
-                                <button href="{{ path('announces_show', {'id': announce.id}) }}" class="btn btn-primary">Consulter l'annonce</button>
+                                <button href="{{ path('announces_show', {'id': announce.id, 'start': start, 'end': end}) }}" class="btn btn-primary">Consulter l'annonce</button>
                             </div>
                         </div>
                     </a>
@@ -29,6 +37,8 @@
     </ul>
     <div class="map" id="map"></div>
 </div>
+{# GERER LE CAS OU IL N'Y A PAS D'ANNONCES DANS LA VILLE RECHERCHEE
+    ET LUI OFFRIR UNE SOILUTION POUR SE REDIRIGER A L'INDEX          #}
 {% else %}
 <div class="container" id="search_failed">
     <p>Aucune annonce ne correspond à la ville que vous recherchez</p>
