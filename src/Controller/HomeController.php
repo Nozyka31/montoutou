@@ -191,7 +191,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/account', name: 'home_account')]
-    public function account(ReservationsRepository $reservationsRepository, UserRepository $userRepository, AnnouncesRepository $announcesRepository): Response
+    public function account(ReservationsRepository $reservationsRepository, AnnouncesRepository $announcesRepository): Response
     {
         $user = $this->security->getUser();
         $resClient = $reservationsRepository->findReservationsByClient($user);
