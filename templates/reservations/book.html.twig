@@ -19,19 +19,8 @@
 {% endblock %}
 
 {% block javascripts %}
-<script>
-
-let startDate = new Date('{{data.form.start }}')
-let endDate = new Date('{{data.form.end }}')
-startDate = startDate.getTime() / 86400000
-endDate = endDate.getTime() / 86400000
-
-let price = document.getElementById('price')
-let dailyPriceComp = document.getElementsByClassName('dailyprice')
-let dailyPrice = dailyPriceComp[0].id
-
-let totalPrice = (endDate - startDate) * dailyPrice
-price.innerHTML = "Le prix total de votre réservation est de " + totalPrice + "€."
-
+<script src="/js/book_mgt.js">
+    start = {{data.form.start }}
+    end = {{data.form.end }}
 </script>
 {% endblock %}
