@@ -1,6 +1,5 @@
 
 let reservations = document.getElementsByClassName("fc-daygrid-event")
-console.log(reservations)
 
 let inputStart = document.querySelector(".inputStart")
 let inputEnd = document.querySelector(".inputEnd")
@@ -42,8 +41,6 @@ $(function() {
 
 window.onload = () => {
     calendarElt = document.querySelector("#calendrier")
-
-    console.log("yaya")
 
     calendar = new FullCalendar.Calendar(calendarElt, {
         selectable: true,

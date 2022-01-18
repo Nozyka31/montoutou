@@ -2,7 +2,6 @@
 let formLogin = document.getElementById("formLogin");
 let url = document.getElementById("url");
 
-console.log(url.innerHTML)
 if(url.innerHTML != "toto")
 {
     formLogin.addEventListener("submit", function() {

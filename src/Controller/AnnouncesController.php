@@ -157,8 +157,6 @@ class AnnouncesController extends AbstractController
             ])
             ->getForm();
 
-            dump($form->get('end')->getData() - $form->get('start')->getData());
-
             return $this->render('announces/show.html.twig', [
                 'announce' => $announce,
                 'previousPage' => $referer,

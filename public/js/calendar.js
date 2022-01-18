@@ -1,7 +1,5 @@
 let calendarInfo = document.querySelector(".resaInfo").innerHTML
 
-console.log(calendarInfo)
-
 window.onload = () => {
     let calendarElt = document.querySelector("#calendrier")
 

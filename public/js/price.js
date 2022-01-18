@@ -3,7 +3,6 @@ let end = document.getElementById('form_end')
 let price = document.getElementById('price')
 let dailyPriceComp = document.getElementsByClassName('dailyprice')
 let dailyPrice = dailyPriceComp[0].id
-console.log(dailyPrice)
 window.addEventListener('click', function() {
     startDate = new Date(start.value)
     endDate = new Date(end.value)

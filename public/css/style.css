@@ -143,8 +143,8 @@ body{
     color: #3A5931;
 }
 
-#logo_navbar{
-    max-height: 5vh;
+.logo_navbar{
+    height: 5vh;
 }
 
 #logo_text{
@@ -181,7 +181,7 @@ body{
     text-decoration: none;
 }
 
-#footer ul p{
+#txt_footer{
     color: #3A5931;
     font-weight: 300;
     margin-left: 1%;
