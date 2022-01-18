@@ -92,7 +92,6 @@ const initMap = async function () {
         
         let marker = map.addMarker(item.dataset.lat, item.dataset.lng, item.dataset.price + ' €')
         item.parentNode.parentNode.addEventListener('mouseover', function () {
-            console.log(marker)
             if(hoverMarker !== null)
             {
                 hoverMarker.unsetActive()
@@ -114,7 +113,6 @@ const initMap = async function () {
                     activeMarker.resetContent()
                 }
                 marker.setContent(item.parentNode.parentNode.innerHTML)
-                console.log(marker)
                 activeMarker = marker
             }
             else

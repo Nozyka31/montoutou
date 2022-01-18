@@ -78,7 +78,7 @@ class AnnouncesController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'announces_show', methods: ['GET','POST'])]
+    #[Route('/{id}', defaults: ['start', 'end'], name: 'announces_show', methods: ['GET','POST'])]
     public function show(Announces $announce, Request $request, UserRepository $userRepository, CheckReservations $checker, ReservationsRepository $reservationsRepository): Response
     {
         $activeUser = $this->security->getUser();
@@ -156,8 +156,6 @@ class AnnouncesController extends AbstractController
                 ],
             ])
             ->getForm();
-
-            dump($form->get('end')->getData() - $form->get('start')->getData());
 
             return $this->render('announces/show.html.twig', [
                 'announce' => $announce,
