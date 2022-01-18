@@ -3,19 +3,30 @@
 {% block title %}Edit Announces{% endblock %}
 
 {% block body %}
+<<<<<<< HEAD
+    <h1>Edit Announces</h1>
+=======
 <div class="container">
     <h1>Modifier votre profil</h1>
+>>>>>>> 3c6a267e2b85b27b0a8761cb148e70f581bba2ed
 
     {{ form_start(form) }}
         {{ form_row(form.firstName) }}
         {{ form_row(form.lastName) }}
         {{ form_row(form.email) }}
         {{ form_row(form.plainPassword) }}
+<<<<<<< HEAD
+        {# {{ form_row(form.agreeTerms) }} #}
+
+        <button type="submit" class="btn btn-primary">S'inscrire</button>
+    {{ form_end(form) }}
+=======
         <p class="attention">ATTENTION ! Si vous ne souhaitez pas changer de mot de passe, tapez votre mot de passe actuel.</p>
         <p class="attention">Sinon, veuillez rentrer un nouveau mot de passe.</p>
 
         <button type="submit" class="btn primary mb-5">Modifier</button>
     {{ form_end(form) }}
 </div>
+>>>>>>> 3c6a267e2b85b27b0a8761cb148e70f581bba2ed
 
 {% endblock %}
